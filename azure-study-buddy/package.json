@@ -4,7 +4,13 @@
   "private": true,
   "description": "AI study companion that explains Azure concepts simply",
   "main": "server.js",
-  "scripts": { "start": "node --env-file=.env server.js" },
-  "engines": { "node": ">=20.6" },
-  "dependencies": { "express": "^4.21.2" }
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20.6"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
 }

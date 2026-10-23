@@ -22,31 +22,33 @@ h1{font-size:clamp(30px,6vw,44px);line-height:1.05;margin:0 0 6px;letter-spacing
 .panel{background:var(--surface);border:1.5px solid var(--ink);border-radius:6px;padding:16px;box-shadow:4px 4px 0 var(--ink)}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .seg{display:inline-flex;border:1.5px solid var(--ink);border-radius:6px;overflow:hidden}
-.seg button{border:0;background:transparent;color:var(--ink);padding:7px 13px;font-size:15px;font-weight:500;cursor:pointer}
+.seg button{border:0;background:transparent;color:var(--ink);padding:7px 13px;font-size:15px;font-weight:500;cursor:pointer;transition:background .15s}
 .seg button+button{border-left:1.5px solid var(--ink)}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 .lbl{font-size:14px;color:var(--mute);margin-right:4px}
 .fields{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
 input[type=text]{flex:1 1 180px;min-width:0;padding:11px 12px;font:inherit;border:1.5px solid var(--ink);border-radius:6px;background:var(--bg);color:var(--ink)}
-.go{padding:11px 20px;border:1.5px solid var(--ink);border-radius:6px;background:var(--accent);color:var(--accent-ink);font-size:16px;font-weight:700;cursor:pointer}
+.go{padding:11px 20px;border:1.5px solid var(--ink);border-radius:6px;background:var(--accent);color:var(--accent-ink);font-size:16px;font-weight:700;cursor:pointer;transition:transform .1s,opacity .15s}
+.go:hover:not(:disabled){transform:translateY(-1px)}
 .go:disabled{opacity:.5;cursor:wait}
 button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .chips{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
-.chip{border:1.5px dashed var(--mute);background:transparent;color:var(--ink);border-radius:99px;padding:4px 12px;font-size:14px;cursor:pointer;font-family:"Bricolage Grotesque",system-ui,sans-serif}
-.chip:hover{border-style:solid}
+.chip{border:1.5px dashed var(--mute);background:transparent;color:var(--ink);border-radius:99px;padding:4px 12px;font-size:14px;cursor:pointer;font-family:"Bricolage Grotesque",system-ui,sans-serif;transition:border-color .15s,background .15s}
+.chip:hover{border-style:solid;border-color:var(--ink);background:rgba(10,108,180,0.06)}
 #log{margin-top:26px;display:flex;flex-direction:column;gap:22px}
-.card{background:var(--surface);border:1.5px solid var(--ink);border-radius:6px;padding:18px 18px 16px}
+.card{background:var(--surface);border:1.5px solid var(--ink);border-radius:6px;padding:18px 18px 16px;box-shadow:3px 3px 0 var(--ink)}
 .card h2{margin:0 0 10px;font-size:24px;letter-spacing:-.01em}
 .k{font:700 15px "Bricolage Grotesque",system-ui,sans-serif;margin:14px 0 2px;color:var(--accent)}
 .card p{margin:0}
-.tip{margin-top:14px;padding:8px 12px;background:var(--mark);border-radius:4px;font-weight:600}
+.tip{margin-top:14px;padding:8px 12px;background:var(--mark);border-radius:4px;font-weight:600;color:#14263a}
 .warn{margin-top:12px;padding:8px 12px;border:1.5px dashed var(--bad);border-radius:4px;color:var(--bad);font-size:15px}
 .check{margin-top:16px;border-top:1.5px solid var(--line);padding-top:12px}
-.opt{display:block;width:100%;text-align:left;margin-top:8px;padding:9px 12px;border:1.5px solid var(--ink);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit;font-size:16px;cursor:pointer}
-.opt.right{background:var(--okbg);border-color:var(--ok)}
-.opt.wrong{background:var(--badbg);border-color:var(--bad)}
-.fb{margin-top:10px;font-size:16px}
-.src{display:inline-block;margin-top:14px;font-size:14px;color:var(--accent)}
+.opt{display:block;width:100%;text-align:left;margin-top:8px;padding:9px 12px;border:1.5px solid var(--ink);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit;font-size:16px;cursor:pointer;transition:background .15s}
+.opt:hover:not(:disabled){background:var(--surface)}
+.opt.right{background:var(--okbg)!important;border-color:var(--ok)!important;color:var(--ok)!important;font-weight:600}
+.opt.wrong{background:var(--badbg)!important;border-color:var(--bad)!important;color:var(--bad)!important}
+.fb{margin-top:10px;font-size:16px;font-weight:500}
+.src{display:inline-block;margin-top:14px;font-size:14px;color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .scroll{overflow-x:auto;margin-top:4px}
 table{border-collapse:collapse;width:100%;min-width:420px;font-size:15.5px}
 th,td{border:1.5px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
@@ -70,91 +72,220 @@ th{font-family:"Bricolage Grotesque",system-ui,sans-serif;background:var(--bg)}
     <div class="seg" id="levels"><button data-l="eli12" aria-pressed="false">Like I’m 12</button><button data-l="normal" aria-pressed="true">Normal</button><button data-l="exam" aria-pressed="false">Exam focus</button></div>
   </div>
   <div class="fields" id="f-explain"><input type="text" id="q" placeholder="e.g. What is a resource group?" aria-label="Concept to explain"><button class="go" id="go1">Explain</button></div>
-  <div class="fields" id="f-compare" hidden><input type="text" id="a" placeholder="First term" aria-label="First term"><input type="text" id="b" placeholder="Second term" aria-label="Second term"><button class="go" id="go2">Compare</button></div>
+  <div class="fields" id="f-compare" hidden><input type="text" id="a" placeholder="First term (e.g. Region)" aria-label="First term"><input type="text" id="b" placeholder="Second term (e.g. Availability zone)" aria-label="Second term"><button class="go" id="go2">Compare</button></div>
   <div class="chips" id="chips"></div>
 </div>
 
 <div id="log"><p class="empty" id="empty">Pick a suggestion or type a concept to start.</p></div>
-<p class="note" id="foot" style="margin-top:28px">Answers are generated and can be wrong. Use the Microsoft Learn link on each card to confirm before the exam.</p>
+<p class="note" id="foot" style="margin-top:28px">Answers are designed for Microsoft Azure fundamentals exams (AZ-900, AI-900). Use the Microsoft Learn link on each card to confirm topics before the exam.</p>
 </div>
 
+<script src="knowledge.js"></script>
 <script>
 (function(){
-var EX={explain:["Resource group","Availability zones","Azure Blob Storage","Shared responsibility model","Microsoft Entra ID"],compare:[["Region","Availability zone"],["Blob storage","File storage"],["Authentication","Authorization"]]};
-var mode="explain",level="normal",busy=false,sample=null;
+var EX={
+  explain:["Resource group","Availability zones","Azure Blob Storage","Shared responsibility model","Microsoft Entra ID","Azure Virtual Machines","Azure Functions"],
+  compare:[["Region","Availability zone"],["Blob storage","File storage"],["Authentication","Authorization"],["IaaS","PaaS"],["VPN Gateway","ExpressRoute"]]
+};
+var mode="explain",level="normal",busy=false;
 var $=function(id){return document.getElementById(id)};
 function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
 
-function chips(){var box=$("chips");box.textContent="";
- if(mode==="explain"){EX.explain.forEach(function(t){var b=el("button","chip",t);b.onclick=function(){$("q").value=t;run()};box.appendChild(b)})}
- else{EX.compare.forEach(function(p){var b=el("button","chip",p[0]+" vs "+p[1]);b.onclick=function(){$("a").value=p[0];$("b").value=p[1];run()};box.appendChild(b)})}}
-function setPressed(box,attr,val){Array.prototype.forEach.call(box.children,function(b){b.setAttribute("aria-pressed",b.dataset[attr]===val)})}
-$("modes").onclick=function(e){var m=e.target.dataset&&e.target.dataset.m;if(!m)return;mode=m;setPressed($("modes"),"m",m);$("f-explain").hidden=m!=="explain";$("f-compare").hidden=m!=="compare";chips()};
-$("levels").onclick=function(e){var l=e.target.dataset&&e.target.dataset.l;if(!l)return;level=l;setPressed($("levels"),"l",l)};
-$("go1").onclick=run;$("go2").onclick=run;
-["q","a","b"].forEach(function(id){$(id).addEventListener("keydown",function(e){if(e.key==="Enter")run()})});
-chips();
-
-sample=true;
-function unavailable(){$("foot").textContent="The study service is unreachable. Check that the server is running.";$("go1").disabled=true;$("go2").disabled=true}
-
-
-async function run(){
- if(busy||!sample)return;
- var prompt,label,term;
- if(mode==="explain"){term=$("q").value.trim();if(!term){$("q").focus();return}}
- else{var a=$("a").value.trim(),b=$("b").value.trim();if(!a||!b){(a?$("b"):$("a")).focus();return}term=a+" "+b}
- busy=true;$("go1").disabled=$("go2").disabled=true;
- var e=$("empty");if(e)e.remove();
- var ph=el("div","card");ph.appendChild(el("p","load","Thinking about “"+term+"”…"));$("log").prepend(ph);
- try{
-  var res=await fetch("/api/study",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:mode,level:level,q:$("q").value.trim(),a:$("a").value.trim(),b:$("b").value.trim()})});
-  if(!res.ok){throw {code:res.status===429?"rate_limited":"error"}}
-  var d=await res.json();
-  var card=mode==="explain"?renderExplain(d,term):renderCompare(d,term);
-  ph.replaceWith(card);
- }catch(err){
-  var m=err&&err.code==="rate_limited"?"Too many requests. Wait a moment, then try again.":err&&err.code==="not_granted"?"Permission to ask Claude was declined. Reload and allow it to get answers.":"That answer didn’t come through. Try rephrasing the topic.";
-  ph.textContent="";ph.appendChild(el("p","",m));
- }
- busy=false;$("go1").disabled=$("go2").disabled=false;
+function chips(){
+  var box=$("chips");box.textContent="";
+  if(mode==="explain"){
+    EX.explain.forEach(function(t){
+      var b=el("button","chip",t);
+      b.onclick=function(){$("q").value=t;run()};
+      box.appendChild(b);
+    });
+  } else {
+    EX.compare.forEach(function(p){
+      var b=el("button","chip",p[0]+" vs "+p[1]);
+      b.onclick=function(){$("a").value=p[0];$("b").value=p[1];run()};
+      box.appendChild(b);
+    });
+  }
 }
 
-function warn(d,card){if(d&&d.confidence==="low")card.appendChild(el("div","warn","Low confidence: verify this one on Microsoft Learn before relying on it."))}
-function src(card,t){var a=el("a","src","Check it on Microsoft Learn");a.href="https://learn.microsoft.com/search/?terms="+encodeURIComponent(t);a.target="_blank";a.rel="noopener";card.appendChild(a)}
+function setPressed(box,attr,val){
+  Array.prototype.forEach.call(box.children,function(b){b.setAttribute("aria-pressed",b.dataset[attr]===val)});
+}
+
+$("modes").onclick=function(e){
+  var m=e.target.dataset&&e.target.dataset.m;if(!m)return;
+  mode=m;setPressed($("modes"),"m",m);
+  $("f-explain").hidden=m!=="explain";
+  $("f-compare").hidden=m!=="compare";
+  chips();
+};
+
+$("levels").onclick=function(e){
+  var l=e.target.dataset&&e.target.dataset.l;if(!l)return;
+  level=l;setPressed($("levels"),"l",l);
+};
+
+$("go1").onclick=run;
+$("go2").onclick=run;
+["q","a","b"].forEach(function(id){
+  $(id).addEventListener("keydown",function(e){if(e.key==="Enter")run()});
+});
+chips();
+
+async function run(){
+  if(busy)return;
+  var term;
+  if(mode==="explain"){
+    term=$("q").value.trim();
+    if(!term){$("q").focus();return;}
+  } else {
+    var aVal=$("a").value.trim(),bVal=$("b").value.trim();
+    if(!aVal||!bVal){(aVal?$("b"):$("a")).focus();return;}
+    term=aVal+" vs "+bVal;
+  }
+
+  busy=true;
+  $("go1").disabled=$("go2").disabled=true;
+  var e=$("empty");if(e)e.remove();
+
+  var ph=el("div","card");
+  ph.appendChild(el("p","load","Thinking about “"+term+"”…"));
+  $("log").prepend(ph);
+
+  var payload={
+    mode:mode,
+    level:level,
+    q:$("q").value.trim(),
+    a:$("a").value.trim(),
+    b:$("b").value.trim()
+  };
+
+  try{
+    var res=await fetch("/api/study",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(payload)
+    });
+
+    if(!res.ok){
+      if(res.status===429)throw {code:"rate_limited"};
+      throw {code:"server_error"};
+    }
+    var d=await res.json();
+    var card=mode==="explain"?renderExplain(d,term):renderCompare(d,term);
+    ph.replaceWith(card);
+  }catch(err){
+    // Fallback: If server endpoint is unreachable (e.g. running standalone or offline),
+    // use client-side Azure study engine directly
+    if(window.AzureStudyEngine && window.AzureStudyEngine.resolveStudyQuery){
+      try{
+        var d=window.AzureStudyEngine.resolveStudyQuery(mode,level,payload.q,payload.a,payload.b);
+        var card=mode==="explain"?renderExplain(d,term):renderCompare(d,term);
+        ph.replaceWith(card);
+      }catch(localErr){
+        var m=localErr.message||"That answer didn’t come through. Try rephrasing the topic.";
+        ph.textContent="";ph.appendChild(el("p","",m));
+      }
+    } else {
+      var m=err&&err.code==="rate_limited"?"Too many requests. Wait a moment, then try again.":"That answer didn’t come through. Try rephrasing the topic.";
+      ph.textContent="";ph.appendChild(el("p","",m));
+    }
+  }
+
+  busy=false;
+  $("go1").disabled=$("go2").disabled=false;
+}
+
+function warn(d,card){
+  if(d&&d.confidence==="low")card.appendChild(el("div","warn","Low confidence: verify this one on Microsoft Learn before relying on it for your exam."));
+}
+
+function src(card,t){
+  var a=el("a","src","Check it on Microsoft Learn ↗");
+  a.href="https://learn.microsoft.com/search/?terms="+encodeURIComponent(t);
+  a.target="_blank";
+  a.rel="noopener";
+  card.appendChild(a);
+}
 
 function renderExplain(d,term){
- var c=el("div","card");c.appendChild(el("h2","",d.title||term));
- c.appendChild(el("div","k","Think of it like this"));c.appendChild(el("p","",d.analogy));
- c.appendChild(el("div","k","The technical version"));c.appendChild(el("p","",d.definition));
- c.appendChild(el("div","tip","Remember for the exam: "+d.exam_tip));
- warn(d,c);
- if(d.check&&d.check.options){
-  var ck=el("div","check");ck.appendChild(el("div","k","Quick check"));ck.appendChild(el("p","",d.check.q));
-  var fb=el("div","fb");fb.setAttribute("aria-live","polite");
-  d.check.options.forEach(function(o,i){
-   var b=el("button","opt",o);
-   b.onclick=function(){
-    var all=ck.querySelectorAll(".opt");
-    all.forEach(function(x){x.disabled=true});
-    all[d.check.answer].classList.add("right");
-    if(i===d.check.answer){fb.textContent="Correct. "+d.check.why}
-    else{b.classList.add("wrong");fb.textContent="Not quite, and that’s a common slip. "+d.check.why}
-   };
-   ck.appendChild(b)});
-  ck.appendChild(fb);c.appendChild(ck);
- }
- src(c,d.title||term);return c}
+  var c=el("div","card");
+  c.appendChild(el("h2","",d.title||term));
+  if(d.analogy){
+    c.appendChild(el("div","k","Think of it like this"));
+    c.appendChild(el("p","",d.analogy));
+  }
+  if(d.definition){
+    c.appendChild(el("div","k","The technical version"));
+    c.appendChild(el("p","",d.definition));
+  }
+  if(d.exam_tip){
+    c.appendChild(el("div","tip","Remember for the exam: "+d.exam_tip));
+  }
+  warn(d,c);
+
+  if(d.check&&d.check.options&&d.check.options.length){
+    var ck=el("div","check");
+    ck.appendChild(el("div","k","Quick check"));
+    ck.appendChild(el("p","",d.check.q));
+    var fb=el("div","fb");
+    fb.setAttribute("aria-live","polite");
+    var correctIdx=Number(d.check.answer);
+    if(isNaN(correctIdx)||correctIdx<0||correctIdx>=d.check.options.length)correctIdx=0;
+
+    d.check.options.forEach(function(o,i){
+      var b=el("button","opt",o);
+      b.onclick=function(){
+        var all=ck.querySelectorAll(".opt");
+        all.forEach(function(x){x.disabled=true});
+        if(all[correctIdx])all[correctIdx].classList.add("right");
+        if(i===correctIdx){
+          fb.textContent="Correct! "+(d.check.why||"");
+          fb.style.color="var(--ok)";
+        } else {
+          b.classList.add("wrong");
+          fb.textContent="Not quite, and that’s a common slip. "+(d.check.why||"");
+          fb.style.color="var(--bad)";
+        }
+      };
+      ck.appendChild(b);
+    });
+    ck.appendChild(fb);
+    c.appendChild(ck);
+  }
+
+  src(c,d.title||term);
+  return c;
+}
 
 function renderCompare(d,term){
- var c=el("div","card");c.appendChild(el("h2","",d.title||term));
- var sc=el("div","scroll"),t=el("table"),h=el("tr");
- var names=[$("a").value.trim(),$("b").value.trim()];
- ["",names[0],names[1]].forEach(function(x){h.appendChild(el("th","",x))});t.appendChild(h);
- (d.rows||[]).forEach(function(r){var tr=el("tr");tr.appendChild(el("th","",r.aspect));tr.appendChild(el("td","",r.a));tr.appendChild(el("td","",r.b));t.appendChild(tr)});
- sc.appendChild(t);c.appendChild(sc);
- c.appendChild(el("div","tip","Memory hook: "+d.remember));
- warn(d,c);src(c,d.title||term);return c}
+  var c=el("div","card");
+  c.appendChild(el("h2","",d.title||term));
+  var sc=el("div","scroll"),t=el("table"),h=el("tr");
+  var names=[
+    (d.headers&&d.headers[0])||$("a").value.trim()||"Concept A",
+    (d.headers&&d.headers[1])||$("b").value.trim()||"Concept B"
+  ];
+  ["",names[0],names[1]].forEach(function(x){h.appendChild(el("th","",x))});
+  t.appendChild(h);
+
+  (d.rows||[]).forEach(function(r){
+    var tr=el("tr");
+    tr.appendChild(el("th","",r.aspect));
+    tr.appendChild(el("td","",r.a));
+    tr.appendChild(el("td","",r.b));
+    t.appendChild(tr);
+  });
+  sc.appendChild(t);
+  c.appendChild(sc);
+
+  if(d.remember){
+    c.appendChild(el("div","tip","Memory hook: "+d.remember));
+  }
+  warn(d,c);
+  src(c,d.title||term);
+  return c;
+}
 })();
 </script>
 </body>
