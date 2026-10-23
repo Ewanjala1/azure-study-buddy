@@ -23,3 +23,8 @@ Azure App Service (Node): set the `.env` values as application settings and use 
 - API versions and service names change; confirm them in the Azure docs.
 - Keep keys in the server environment only, never in `public/`.
 - Generated answers can be wrong. The UI links each answer to a Microsoft Learn search so learners can verify.
+
+## Contributors
+- [@Ewanjala1](https://github.com/Ewanjala1): original author
+- [@julie12-maker](https://github.com/julie12-maker): documentation and testing
+
